@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Poppins', Arial, system-ui, sans-serif;
+
+    --color-bg-primary: #f5f5dc;
+    --color-bg-secondary: #ffcf9d;
+    --color-text-primary: #004225;
+    --color-text-secondary: #2f4f3a;
+    --color-border: #ffcf9d;
+
+    --color-accent-primary: #004225;
+    --color-accent-secondary: #ffb000;
+    --color-accent-soft: #ffcf9d;
+}
+
+@layer base {
+    :root {
+        color-scheme: light;
+    }
+
+    body {
+        background-color: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        font-family: var(--font-sans);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--color-text-primary);
+        letter-spacing: -0.01em;
+    }
+
+    a {
+        color: var(--color-accent-secondary);
+        text-decoration-thickness: 1.5px;
+        text-underline-offset: 2px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}
