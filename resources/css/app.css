@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -9,45 +8,34 @@
 @theme {
     --font-sans: 'Poppins', Arial, system-ui, sans-serif;
 
-    --color-bg-primary: #f5f5dc;
-    --color-bg-secondary: #ffcf9d;
+    /* Base Colors (Light Mode) */
+    --color-bg-primary: #F5F5DC;
+    --color-bg-secondary: #FFCF9D;
     --color-text-primary: #004225;
-    --color-text-secondary: #2f4f3a;
-    --color-border: #ffcf9d;
+    --color-text-secondary: #2F4F3A;
+    --color-border: #FFCF9D;
 
     --color-accent-primary: #004225;
-    --color-accent-secondary: #ffb000;
-    --color-accent-soft: #ffcf9d;
+    --color-accent-secondary: #FFB000;
+    --color-accent-soft: #FFCF9D;
 }
 
 @layer base {
-    :root {
-        color-scheme: light;
+    /* Dark Mode Overrides */
+    .dark {
+        --color-bg-primary: #004225;
+        --color-bg-secondary: #00331c;
+        --color-text-primary: #F5F5DC;
+        --color-text-secondary: #B8B8A0;
+        --color-border: #005c34;
+        --color-accent-primary: #F5F5DC;
+        --color-accent-secondary: #FFB000;
+        --color-accent-soft: #005c34;
     }
 
     body {
         background-color: var(--color-bg-primary);
         color: var(--color-text-primary);
-        font-family: var(--font-sans);
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: var(--color-text-primary);
-        letter-spacing: -0.01em;
-    }
-
-    a {
-        color: var(--color-accent-secondary);
-        text-decoration-thickness: 1.5px;
-        text-underline-offset: 2px;
-    }
-
-    a:hover {
-        text-decoration: underline;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 }
