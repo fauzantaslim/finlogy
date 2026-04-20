@@ -22,7 +22,7 @@
                     <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
                        class="group relative block flex-1 overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[200px] sm:min-h-[220px]">
                         @if($thumb)
-                            <img src="{{ $thumb }}" alt="{{ $post->title }}"
+                            <img src="{{ $thumb }}" alt="{{ $post->title }}" fetchpriority="high"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -32,7 +32,7 @@
                                     {{ $post->category->name }}
                                 </span>
                             @endif
-                            <span class="mb-1 block text-[9px] font-semibold text-white/50">
+                            <span class="mb-1 block text-[9px] font-semibold text-white/80">
                                 {{ optional($post->published_at)->diffForHumans() }}
                             </span>
                             <h3 class="text-sm font-bold leading-tight text-white line-clamp-3 group-hover:text-[var(--color-accent-secondary)] transition-colors">
@@ -55,7 +55,7 @@
                     <a href="{{ route('blog.post.show', [$featuredPost->category?->slug ?? 'umum', $featuredPost->slug]) }}"
                        class="group relative block h-full overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[420px] sm:min-h-[500px] lg:min-h-0">
                         @if($featuredCover)
-                            <img src="{{ $featuredCover }}" alt="{{ $featuredPost->title }}"
+                            <img src="{{ $featuredCover }}" alt="{{ $featuredPost->title }}" fetchpriority="high"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
@@ -70,13 +70,13 @@
                                     </span>
                                 @endif
                             </div>
-                            <span class="mb-2 block text-[9px] font-semibold text-white/50">
+                            <span class="mb-2 block text-[9px] font-semibold text-white/80">
                                 {{ optional($featuredPost->published_at)->diffForHumans() }}
                             </span>
                             <h2 class="mb-3 text-xl font-black leading-tight tracking-tight text-white group-hover:text-[var(--color-accent-secondary)] transition-colors md:text-2xl lg:text-3xl">
                                 {{ $featuredPost->title }}
                             </h2>
-                            <p class="line-clamp-2 text-xs leading-relaxed text-white/60 md:text-sm">
+                            <p class="line-clamp-2 text-xs leading-relaxed text-white/80 md:text-sm">
                                 {{ $featuredPost->excerpt }}
                             </p>
                         </div>
@@ -91,7 +91,7 @@
                     <a href="{{ route('blog.post.show', [$rightFirst->category?->slug ?? 'umum', $rightFirst->slug]) }}"
                        class="group relative block overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[200px] sm:min-h-[260px] lg:flex-[3] lg:min-h-0">
                         @if($thumbR1)
-                            <img src="{{ $thumbR1 }}" alt="{{ $rightFirst->title }}"
+                            <img src="{{ $thumbR1 }}" alt="{{ $rightFirst->title }}" fetchpriority="high"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -101,7 +101,7 @@
                                     {{ $rightFirst->category->name }}
                                 </span>
                             @endif
-                            <span class="mb-1 block text-[9px] font-semibold text-white/50">
+                            <span class="mb-1 block text-[9px] font-semibold text-white/80">
                                 {{ optional($rightFirst->published_at)->diffForHumans() }}
                             </span>
                             <h3 class="text-sm font-bold leading-tight text-white line-clamp-3 group-hover:text-[var(--color-accent-secondary)] transition-colors md:text-base">
@@ -115,7 +115,7 @@
                         <a href="{{ route('blog.post.show', [$rightSecond->category?->slug ?? 'umum', $rightSecond->slug]) }}"
                            class="group relative block overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[180px] sm:min-h-[200px] lg:flex-[2]">
                             @if($thumbR2)
-                                <img src="{{ $thumbR2 }}" alt="{{ $rightSecond->title }}"
+                                <img src="{{ $thumbR2 }}" alt="{{ $rightSecond->title }}" fetchpriority="high"
                                      class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -125,7 +125,7 @@
                                         {{ $rightSecond->category->name }}
                                     </span>
                                 @endif
-                                <span class="mb-1 block text-[9px] font-semibold text-white/50">
+                                <span class="mb-1 block text-[9px] font-semibold text-white/80">
                                     {{ optional($rightSecond->published_at)->diffForHumans() }}
                                 </span>
                                 <h3 class="text-sm font-bold leading-tight text-white line-clamp-3 group-hover:text-[var(--color-accent-secondary)] transition-colors">
@@ -141,65 +141,134 @@
     </section>
     @endif
 
-    {{-- 2. MAIN GRID: Latest Articles --}}
-    <div class="max-w-7xl mx-auto">
-        <div class="space-y-12">
-            <section>
-                <div class="mb-8 flex items-end justify-between border-b border-[var(--color-border)] pb-4">
-                    <div>
-                        <h2 class="text-2xl font-bold tracking-tight text-[var(--color-text-primary)] md:text-3xl">Artikel Terbaru</h2>
+    {{-- 2. MAIN GRID: Latest & Popular & Categories --}}
+    <div class="mx-auto max-w-7xl">
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_320px] xl:grid-cols-[1fr_380px]">
+
+            {{-- LEFT COLUMN: LATEST & CATEGORIES --}}
+            <div class="flex flex-col gap-16">
+
+                {{-- LATEST POSTS --}}
+                <section>
+                    <div class="mb-8 flex items-end justify-between border-b-[6px] border-[var(--color-text-primary)] pb-4">
+                        <h2 class="text-4xl font-black uppercase tracking-tighter text-[var(--color-text-primary)] sm:text-5xl">Terbaru</h2>
                     </div>
-                </div>
 
-                <div class="space-y-8">
-                    @forelse($remainingPosts as $post)
-                        <article class="group grid gap-6 md:grid-cols-[240px_1fr]">
-                            @if($thumb = $post->getFirstMediaUrl('post_covers'))
-                                <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
-                                   class="block aspect-[4/3] overflow-hidden rounded-2xl border border-[var(--color-border)]">
-                                    <img src="{{ $thumb }}" alt="{{ $post->title }}"
-                                         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                </a>
-                            @else
-                                <div class="aspect-[4/3] rounded-2xl bg-[var(--color-bg-secondary)] opacity-10 flex items-center justify-center border border-[var(--color-border)]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[var(--color-text-secondary)] opacity-10" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                                    </svg>
+                    <div class="flex flex-col divide-y divide-[var(--color-border)] border-b border-[var(--color-border)]">
+                        @forelse($remainingPosts as $post)
+                            <article class="group grid gap-6 py-8 md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr]">
+                                @if($thumb = $post->getFirstMediaUrl('post_covers'))
+                                    <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
+                                       class="block aspect-[4/3] w-full overflow-hidden border border-[var(--color-border)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0_0_var(--color-text-primary)]">
+                                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0">
+                                    </a>
+                                @else
+                                    <div class="flex aspect-[4/3] w-full items-center justify-center border border-[var(--color-border)] bg-[var(--color-bg-secondary)] opacity-10"></div>
+                                @endif
+
+                                <div class="flex flex-col py-1">
+                                    <div class="mb-3 flex items-center gap-3">
+                                        @if($post->category)
+                                            <a href="{{ route('blog.category', $post->category->slug) }}"
+                                               class="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent-primary)] no-underline hover:underline">
+                                                {{ $post->category->name }}
+                                            </a>
+                                        @endif
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-70">
+                                            {{ optional($post->published_at)->translatedFormat('d M Y') }}
+                                        </span>
+                                    </div>
+                                    <h3 class="mb-3 text-2xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-primary)]">
+                                        <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" class="no-underline">
+                                            {{ $post->title }}
+                                        </a>
+                                    </h3>
+                                    <p class="mb-5 line-clamp-3 text-sm leading-relaxed opacity-70">
+                                        {{ $post->excerpt }}
+                                    </p>
+                                    <div class="mt-auto flex items-center gap-2 text-[10px] font-black uppercase tracking-widest opacity-60">
+                                        <span>OLEH {{ $post->user?->name ?? 'Redaksi' }}</span>
+                                    </div>
                                 </div>
-                            @endif
+                            </article>
+                        @empty
+                            <p class="py-10 text-center text-sm font-bold uppercase tracking-widest opacity-50">Belum ada artikel terbaru.</p>
+                        @endforelse
+                    </div>
+                </section>
 
-                            <div class="flex flex-col py-1">
-                                <div class="mb-3 flex items-center gap-3">
+                {{-- CATEGORIES BLOCK --}}
+                @foreach($categoriesWithPosts as $cat)
+                <section>
+                    <div class="mb-8 flex items-center justify-between border-y-2 border-[var(--color-text-primary)] py-3">
+                        <h2 class="text-3xl font-black uppercase tracking-tighter">{{ $cat->name }}</h2>
+                        <a href="{{ route('blog.category', $cat->slug) }}" class="flex h-8 items-center border border-[var(--color-text-primary)] bg-[var(--color-text-primary)] px-4 text-[10px] font-black uppercase tracking-widest text-[var(--color-bg-primary)] transition-all hover:bg-transparent hover:text-[var(--color-text-primary)]">
+                            Lihat Semua &rarr;
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                        @foreach($cat->posts as $post)
+                            <article class="group flex flex-col gap-4">
+                                @if($thumb = $post->getFirstMediaUrl('post_covers'))
+                                    <a href="{{ route('blog.post.show', [$cat->slug, $post->slug]) }}"
+                                       class="block w-full aspect-[16/9] overflow-hidden border border-[var(--color-border)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0_0_var(--color-text-primary)]">
+                                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                    </a>
+                                @endif
+                                <div>
+                                    <div class="mb-2 text-[9px] font-bold uppercase tracking-widest opacity-70">
+                                        {{ optional($post->published_at)->translatedFormat('d M Y') }}
+                                    </div>
+                                    <h3 class="text-lg font-black leading-tight tracking-tight transition-colors group-hover:text-[var(--color-accent-primary)] md:text-xl">
+                                        <a href="{{ route('blog.post.show', [$cat->slug, $post->slug]) }}" class="no-underline">
+                                            {{ $post->title }}
+                                        </a>
+                                    </h3>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                </section>
+                @endforeach
+
+            </div>
+
+            {{-- RIGHT COLUMN: POPULAR --}}
+            <aside class="flex flex-col gap-10">
+                <div class="sticky top-24">
+                    <div class="mb-8 border-t-[6px] border-[var(--color-text-primary)] pt-4">
+                        <h2 class="text-2xl font-black uppercase tracking-tighter md:text-3xl">Terpopuler</h2>
+                    </div>
+
+                    <div class="flex flex-col">
+                        @foreach($popularPosts as $index => $post)
+                            <article class="group relative flex items-start gap-4 border-b border-[var(--color-border)] py-6 pt-5 hover:bg-[var(--color-text-primary)]/5">
+                                <div class="font-serif text-5xl font-black leading-none text-[var(--color-text-primary)] opacity-10 transition-opacity group-hover:opacity-30">
+                                    {{ $index + 1 }}
+                                </div>
+                                <div class="flex flex-col pt-1">
                                     @if($post->category)
                                         <a href="{{ route('blog.category', $post->category->slug) }}"
-                                           class="text-[10px] font-black uppercase tracking-widest text-[var(--color-accent-primary)] no-underline hover:text-[var(--color-accent-secondary)]">
+                                           class="mb-2 text-[9px] font-black uppercase tracking-widest text-[var(--color-accent-primary)] no-underline hover:underline">
                                             {{ $post->category->name }}
                                         </a>
                                     @endif
-                                    <span class="text-[10px] text-[var(--color-text-secondary)] opacity-40 uppercase font-bold tracking-widest">
-                                        {{ optional($post->published_at)->translatedFormat('d M Y') }}
-                                    </span>
+                                    <h3 class="text-base font-bold leading-tight tracking-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-primary)]">
+                                        <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" class="after:absolute after:inset-0">
+                                            {{ $post->title }}
+                                        </a>
+                                    </h3>
+                                    <div class="mt-3 flex items-center gap-2 text-[9px] font-black uppercase tracking-widest opacity-60">
+                                        <span>{{ number_format($post->views_count) }} TAYANGAN</span>
+                                    </div>
                                 </div>
-                                <h3 class="mb-3 text-xl font-bold leading-tight tracking-tight text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-primary)] transition-colors">
-                                    <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" class="no-underline">
-                                        {{ $post->title }}
-                                    </a>
-                                </h3>
-                                <p class="mb-5 line-clamp-2 text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-70">
-                                    {{ $post->excerpt }}
-                                </p>
-                                <div class="mt-auto flex items-center gap-2 text-[11px] font-semibold text-[var(--color-text-secondary)] opacity-40">
-                                    <span>{{ $post->user?->name }}</span>
-                                    <span>&middot;</span>
-                                    <span>{{ number_format($post->views_count) }} tayangan</span>
-                                </div>
-                            </div>
-                        </article>
-                    @empty
-                        <p class="text-center py-10 text-[var(--color-text-secondary)] opacity-50 italic">Belum ada artikel terbaru.</p>
-                    @endforelse
+                            </article>
+                        @endforeach
+                    </div>
                 </div>
-            </section>
+            </aside>
+
         </div>
     </div>
 

@@ -17,46 +17,48 @@
         </p>
     </header>
 
-    <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @forelse($posts as $post)
-            <article class="group flex flex-col overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)] opacity-50 transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--color-accent-secondary)] hover:opacity-100 hover:shadow-md hover:shadow-[var(--color-accent-secondary)]/10">
+            <article class="group flex flex-col overflow-hidden rounded-xl border-2 border-[var(--color-bg-secondary)] bg-[var(--color-bg-primary)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-accent-secondary)] hover:shadow-[0_12px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[var(--color-accent-secondary)]/20">
                 @if($thumb = $post->getFirstMediaUrl('post_covers'))
-                    <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" class="block overflow-hidden">
-                        <img src="{{ $thumb }}" alt="{{ $post->title }}"
-                             class="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                    <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" class="relative block overflow-hidden aspect-[4/3] border-b-2 border-[var(--color-bg-secondary)] group-hover:border-[var(--color-accent-secondary)]/30 transition-colors">
+                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
+                             class="absolute inset-0 h-full w-full object-cover mix-blend-multiply opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100">
                     </a>
                 @else
-                    <div class="flex h-36 items-center justify-center bg-[var(--color-bg-secondary)] opacity-10 border-b border-[var(--color-border)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[var(--color-text-secondary)] opacity-15" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                    <div class="relative flex aspect-[4/3] items-center justify-center border-b-2 border-[var(--color-bg-secondary)] bg-[var(--color-bg-secondary)]/40 transition-colors group-hover:border-[var(--color-accent-secondary)]/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-12 w-12 text-[var(--color-text-secondary)] opacity-20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
                     </div>
                 @endif
 
-                <div class="flex flex-1 flex-col p-5">
-                    <div class="mb-3 flex items-center gap-2">
+                <div class="flex flex-1 flex-col p-6">
+                    <div class="mb-4 flex items-center gap-3">
                         @if($post->category)
                             <a href="{{ route('blog.category', $post->category->slug) }}"
-                               class="rounded-sm bg-[var(--color-accent-primary)] opacity-10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent-primary)] no-underline transition-colors hover:bg-[var(--color-accent-primary)] hover:text-[var(--color-bg-primary)] hover:opacity-100">
+                               class="inline-flex items-center justify-center rounded-sm bg-[var(--color-accent-primary)]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent-primary)] no-underline transition-colors hover:bg-[var(--color-accent-primary)] hover:text-[var(--color-bg-primary)]">
                                 {{ $post->category->name }}
                             </a>
+                        @else
+                            <div class="h-4 w-12 rounded-sm bg-[var(--color-accent-primary)]/10"></div>
                         @endif
-                        <time class="text-[11px] text-[var(--color-text-secondary)] opacity-50" datetime="{{ $post->published_at?->toDateString() }}">
+                        <time class="text-[11px] font-semibold text-[var(--color-text-secondary)] opacity-60" datetime="{{ $post->published_at?->toDateString() }}">
                             {{ optional($post->published_at)->translatedFormat('d M Y') }}
                         </time>
                     </div>
-                    <h2 class="mb-2.5 line-clamp-2 text-[1rem] font-bold leading-snug tracking-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-primary)]">
+                    <h2 class="mb-3 line-clamp-2 text-xl font-bold leading-tight tracking-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-primary)]">
                         {{ $post->title }}
                     </h2>
-                    <p class="mb-4 line-clamp-3 flex-1 text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-80">
+                    <p class="mb-8 line-clamp-3 flex-1 text-[13px] leading-relaxed text-[var(--color-text-secondary)] xl:text-[14px] opacity-75">
                         {{ $post->excerpt }}
                     </p>
-                    <div class="flex items-center justify-between border-t border-[var(--color-border)] pt-4">
-                        <span class="text-[11px] text-[var(--color-text-secondary)] opacity-50">{{ $post->user?->name }}</span>
+                    <div class="mt-auto flex items-center justify-between border-t-2 border-[var(--color-bg-secondary)] pt-4 transition-colors group-hover:border-[var(--color-accent-secondary)]/20">
+                        <span class="text-[11px] font-bold tracking-widest text-[var(--color-text-secondary)] opacity-50 uppercase">{{ $post->user?->name ?? 'Writer' }}</span>
                         <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
-                           class="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-accent-primary)] no-underline transition-colors hover:text-[var(--color-accent-secondary)]">
+                           class="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--color-accent-primary)] no-underline transition-colors hover:text-[var(--color-accent-secondary)] group-hover:text-[var(--color-accent-secondary)]">
                             Baca
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                             </svg>
                         </a>
@@ -65,8 +67,8 @@
             </article>
         @empty
             <div class="col-span-full py-12 text-center">
-                <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-bg-secondary)] opacity-30 text-[var(--color-accent-primary)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-bg-secondary)] opacity-50 text-[var(--color-accent-primary)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
                 </div>

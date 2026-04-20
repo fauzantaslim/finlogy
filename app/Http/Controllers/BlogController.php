@@ -6,8 +6,8 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Settings\GeneralSettings;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Tags\Tag;
 
 class BlogController extends Controller
@@ -29,8 +29,29 @@ class BlogController extends Controller
             ->take(5)
             ->get();
 
+        $categoriesWithPosts = Category::query()
+            ->where('is_visible', true)
+            ->withCount(['posts' => function ($q) {
+                $q->where('status', 'published')
+                    ->whereNotNull('published_at')
+                    ->where('published_at', '<=', now());
+            }])
+            ->having('posts_count', '>', 0)
+            ->orderByDesc('posts_count')
+            ->with(['posts' => function ($q) {
+                $q->with(['user', 'category'])
+                    ->where('status', 'published')
+                    ->whereNotNull('published_at')
+                    ->where('published_at', '<=', now())
+                    ->orderByDesc('published_at')
+                    ->limit(4);
+            }])
+            ->get();
+
         SEOTools::setTitle($settings->default_meta_title ?: $settings->site_name);
         SEOTools::setDescription($settings->default_meta_description ?: $settings->site_description);
+        SEOTools::opengraph()->setType('WebSite');
+        SEOTools::jsonLd()->setType('WebSite');
 
         return view('blog.index', [
             'settings' => $settings,
@@ -38,6 +59,7 @@ class BlogController extends Controller
             'latestPosts' => $latestPosts,
             'popularPosts' => $popularPosts,
             'categories' => $this->visibleCategories(),
+            'categoriesWithPosts' => $categoriesWithPosts,
         ]);
     }
 
@@ -61,10 +83,10 @@ class BlogController extends Controller
         SEOTools::setDescription($category->description ?: $settings->site_description);
 
         return view('blog.category', [
-            'settings'    => $settings,
-            'category'    => $category,
-            'posts'       => $posts,
-            'categories'  => $this->visibleCategories(),
+            'settings' => $settings,
+            'category' => $category,
+            'posts' => $posts,
+            'categories' => $this->visibleCategories(),
             'recentPosts' => $this->publishedPostsQuery()->whereBelongsTo($category)->latest('published_at')->take(5)->get(),
             'popularPosts' => $this->publishedPostsQuery()->whereBelongsTo($category)->orderByDesc('views_count')->take(5)->get(),
         ]);
@@ -121,9 +143,9 @@ class BlogController extends Controller
         SEOTools::setDescription("Hasil pencarian untuk '{$query}' di {$settings->site_name}.");
 
         return view('blog.search', [
-            'settings'   => $settings,
-            'posts'      => $posts,
-            'query'      => $query,
+            'settings' => $settings,
+            'posts' => $posts,
+            'query' => $query,
             'categories' => $this->visibleCategories(),
         ]);
     }

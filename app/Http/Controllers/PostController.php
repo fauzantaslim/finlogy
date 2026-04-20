@@ -51,11 +51,23 @@ class PostController extends Controller
             ->take(6)
             ->get();
 
+        $description = $post->excerpt ?: str($post->content)->stripTags()->limit(160)->toString();
         SEOTools::setTitle("{$post->title} | {$settings->site_name}");
-        SEOTools::setDescription($post->excerpt ?: str($post->content)->stripTags()->limit(160)->toString());
+        SEOTools::setDescription($description);
+
+        SEOTools::opengraph()->setType('article');
+        SEOTools::opengraph()->setTitle($post->title);
+        SEOTools::opengraph()->setDescription($description);
+
+        SEOTools::jsonLd()->setType('Article');
+        SEOTools::jsonLd()->setTitle($post->title);
+        SEOTools::jsonLd()->setDescription($description);
+
         $cover = $post->getFirstMediaUrl('post_covers');
         if (filled($cover)) {
             SEOTools::opengraph()->addImage($cover);
+            SEOTools::jsonLd()->addImage($cover);
+            SEOTools::twitter()->setImage($cover);
         }
 
         return view('blog.show', [

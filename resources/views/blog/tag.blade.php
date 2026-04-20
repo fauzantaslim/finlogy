@@ -30,12 +30,12 @@
                     @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                         <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" 
                            class="block aspect-video overflow-hidden rounded-2xl border border-[var(--color-border)]">
-                            <img src="{{ $thumb }}" alt="{{ $post->title }}"
+                            <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
                                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
                         </a>
                     @else
-                        <div class="aspect-video rounded-2xl bg-[var(--color-bg-secondary)] opacity-10 flex items-center justify-center border border-[var(--color-border)]">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[var(--color-text-secondary)] opacity-10" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                        <div class="aspect-video rounded-2xl bg-[var(--color-bg-secondary)] opacity-30 flex items-center justify-center border border-[var(--color-border)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-8 w-8 text-[var(--color-text-secondary)] opacity-50" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                             </svg>
                         </div>
@@ -49,7 +49,7 @@
                                     {{ $post->category->name }}
                                 </a>
                             @endif
-                            <time class="text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-40">
+                            <time class="text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-70">
                                 {{ optional($post->published_at)->translatedFormat('d M Y') }}
                             </time>
                         </div>
@@ -61,7 +61,7 @@
                         <p class="mb-5 line-clamp-2 text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-70">
                             {{ $post->excerpt }}
                         </p>
-                        <div class="mt-auto flex items-center gap-2 text-xs font-semibold text-[var(--color-text-secondary)] opacity-40">
+                        <div class="mt-auto flex items-center gap-2 text-xs font-semibold text-[var(--color-text-secondary)] opacity-70">
                             <span>Author: {{ $post->user?->name }}</span>
                         </div>
                     </div>
@@ -90,14 +90,14 @@
                                 </span>
                                 <div class="relative h-[48px] w-[64px] shrink-0 overflow-hidden rounded-lg bg-[var(--color-border)] opacity-40">
                                     @if($pCover = $pop->getFirstMediaUrl('post_covers', 'thumb'))
-                                        <img src="{{ $pCover }}" alt="{{ $pop->title }}" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                                        <img src="{{ $pCover }}" alt="{{ $pop->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
                                     @endif
                                 </div>
                                 <div>
                                     <p class="text-[0.8rem] font-bold leading-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-primary)]">
                                         {{ $pop->title }}
                                     </p>
-                                    <p class="mt-1.5 text-[9px] font-bold tracking-widest text-[var(--color-text-secondary)] opacity-30 uppercase">
+                                    <p class="mt-1.5 text-[9px] font-bold tracking-widest text-[var(--color-text-secondary)] opacity-60 uppercase">
                                         {{ number_format($pop->views_count) }} Views
                                     </p>
                                 </div>

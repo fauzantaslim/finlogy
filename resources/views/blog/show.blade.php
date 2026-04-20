@@ -49,10 +49,12 @@
                         <button
                             @click="open = !open"
                             @click.outside="open = false"
+                            :aria-expanded="open"
+                            aria-label="Bagikan artikel ini"
                             title="Bagikan artikel"
-                            class="flex h-9 w-9 items-center justify-center rounded-full border border-border text-text-secondary opacity-60 transition-all hover:border-accent-secondary hover:bg-accent-secondary hover:text-accent-primary hover:opacity-100"
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-border text-text-secondary opacity-80 transition-all hover:border-accent-secondary hover:bg-accent-secondary hover:text-accent-primary hover:opacity-100"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                             </svg>
                         </button>
@@ -106,7 +108,7 @@
                 {{-- Cover Image --}}
                 @if($cover = $post->getFirstMediaUrl('post_covers'))
                     <figure class="mb-10">
-                        <img src="{{ $cover }}" alt="{{ $post->title }}"
+                        <img src="{{ $cover }}" alt="{{ $post->title }}" fetchpriority="high"
                              class="w-full rounded-2xl border border-border object-cover shadow-sm">
                     </figure>
                 @endif
@@ -120,7 +122,7 @@
                             $url = route('blog.post.show', [$relatedPost->category?->slug ?? 'umum', $relatedPost->slug]);
                             $img = $relatedPost->getFirstMediaUrl('post_covers');
                             $imgHtml = $img
-                                ? '<img src="'.$img.'" alt="'.$relatedPost->title.'" class="m-0 h-[76px] w-[100px] flex-shrink-0 rounded-lg object-cover">'
+                                ? '<img src="'.$img.'" alt="'.$relatedPost->title.'" loading="lazy" decoding="async" class="m-0 h-[76px] w-[100px] flex-shrink-0 rounded-lg object-cover">'
                                 : '<div class="m-0 h-[76px] w-[100px] flex-shrink-0 rounded-lg bg-border/20"></div>';
                             $title = htmlspecialchars($relatedPost->title);
                             $relatedList .= '<a href="'.$url.'" class="group/bj flex items-center gap-4 no-underline">'.$imgHtml.'<span class="text-sm font-bold leading-snug text-text-primary transition-colors group-hover/bj:text-accent-secondary">'.$title.'</span></a>';
@@ -179,9 +181,9 @@
                                 <article class="group grid gap-6 md:grid-cols-[240px_1fr]">
                                     <a href="{{ route('blog.post.show', [$lPost->category?->slug ?? 'umum', $lPost->slug]) }}" class="relative block aspect-video overflow-hidden rounded-2xl border border-border shadow-sm">
                                         @if($lCover = $lPost->getFirstMediaUrl('post_covers', 'thumb'))
-                                            <img src="{{ $lCover }}" alt="{{ $lPost->title }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                            <img src="{{ $lCover }}" alt="{{ $lPost->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
                                         @else
-                                            <div class="flex h-full w-full items-center justify-center bg-border/20 text-[10px] font-bold uppercase tracking-widest text-text-secondary/40">Finlogy</div>
+                                            <div class="flex h-full w-full items-center justify-center bg-border/20 text-[10px] font-bold uppercase tracking-widest text-text-secondary/60">Finlogy</div>
                                         @endif
                                     </a>
                                     <div class="flex flex-col py-1">
@@ -189,7 +191,7 @@
                                             @if($lPost->category)
                                                 <span class="text-[10px] font-black uppercase tracking-widest text-accent-primary">{{ $lPost->category->name }}</span>
                                             @endif
-                                            <span class="text-[10px] font-bold uppercase tracking-widest text-text-secondary/30">{{ optional($lPost->published_at)->translatedFormat('d M Y') }}</span>
+                                            <span class="text-[10px] font-bold uppercase tracking-widest text-text-secondary/70">{{ optional($lPost->published_at)->translatedFormat('d M Y') }}</span>
                                         </div>
                                         <h3 class="mb-3 text-xl font-black leading-tight text-accent-primary">
                                             <a href="{{ route('blog.post.show', [$lPost->category?->slug ?? 'umum', $lPost->slug]) }}" class="no-underline">{{ $lPost->title }}</a>
@@ -222,9 +224,9 @@
                                     {{-- Thumb --}}
                                     <div class="relative h-[60px] w-[80px] shrink-0 overflow-hidden rounded-lg bg-border/20">
                                         @if($rCover = $r->getFirstMediaUrl('post_covers', 'thumb'))
-                                            <img src="{{ $rCover }}" alt="{{ $r->title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                            <img src="{{ $rCover }}" alt="{{ $r->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
                                         @else
-                                            <div class="flex h-full w-full items-center justify-center bg-border/10 text-[6px] font-bold uppercase tracking-tighter text-text-secondary/30">Finlogy</div>
+                                            <div class="flex h-full w-full items-center justify-center bg-border/10 text-[6px] font-bold uppercase tracking-tighter text-text-secondary/60">Finlogy</div>
                                         @endif
                                     </div>
                                     <div class="flex min-w-0 flex-col">
@@ -257,7 +259,7 @@
                                     {{-- Mini Thumb for Popular --}}
                                     <div class="relative h-[44px] w-[58px] shrink-0 overflow-hidden rounded bg-border/20">
                                         @if($pCover = $pop->getFirstMediaUrl('post_covers', 'thumb'))
-                                            <img src="{{ $pCover }}" alt="{{ $pop->title }}" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                                            <img src="{{ $pCover }}" alt="{{ $pop->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
                                         @else
                                             <div class="h-full w-full bg-border/10"></div>
                                         @endif

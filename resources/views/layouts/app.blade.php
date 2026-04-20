@@ -12,6 +12,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#E8E4B8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#00331c" />
     {!! \Artesaos\SEOTools\Facades\SEOTools::generate() !!}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +35,7 @@
                     <button
                         @click="dark = !dark"
                         title="Toggle tema"
+                        aria-label="Toggle tema gelap atau terang"
                         class="group relative flex h-7 w-[52px] shrink-0 cursor-pointer items-center rounded-full p-0.5 transition-all duration-300"
                         :class="dark ? 'bg-[#00331c] border border-[#ffb000]/60 hover:border-[#ffb000]' : 'bg-[#E8E4B8] border border-[#d4c97a] hover:border-[var(--color-accent-secondary)]'"
                     >
@@ -53,9 +56,9 @@
                     </button>
 
                     {{-- Center: Logo --}}
-                    <a href="{{ route('blog.home') }}" class="group flex items-center justify-center no-underline">
+                    <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="group flex items-center justify-center no-underline">
                         @if($settings->logo_large_url)
-                            <img src="{{ $settings->logo_large_url }}" alt="{{ $settings->site_name }}" class="h-12 md:h-16 w-auto transition-all hover:scale-[1.02]" :class="{ 'brightness-0 invert': dark }">
+                            <img src="{{ $settings->logo_large_url }}" alt="Logo {{ $settings->site_name }}" fetchpriority="high" class="h-12 md:h-16 w-auto transition-all hover:scale-[1.02]" :class="{ 'brightness-0 invert': dark }">
                         @else
                             <span class="text-3xl font-black italic tracking-tighter text-[var(--color-accent-primary)] md:text-4xl transition-transform hover:scale-[1.02]">
                                 {{ Str::lower($settings->site_name) }}<span class="text-[var(--color-accent-secondary)]">.id</span>
@@ -64,20 +67,20 @@
                     </a>
 
                     {{-- Right: Social Icons --}}
-                    <div class="flex items-center gap-5 text-[var(--color-text-primary)]/70">
+                    <div class="flex items-center gap-5 text-[var(--color-text-primary)]/80">
                         @if($settings->x_url)
-                        <a href="{{ $settings->x_url }}" class="hover:text-[var(--color-accent-primary)]">
-                            <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        <a href="{{ $settings->x_url }}" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi X (Twitter)" class="hover:text-[var(--color-accent-primary)]">
+                            <svg class="h-4 w-4 fill-current" aria-hidden="true" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
                         @endif
                         @if($settings->facebook_url)
-                        <a href="{{ $settings->facebook_url }}" class="hover:text-[var(--color-accent-primary)]">
-                            <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03.284-2 1.5-2h1.5V1.75c-.273-.037-1.215-.125-2.307-.125C12.42 1.625 10 3.12 10 6.5v3H7v4h3V22h4v-8.5z"/></svg>
+                        <a href="{{ $settings->facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook" class="hover:text-[var(--color-accent-primary)]">
+                            <svg class="h-4 w-4 fill-current" aria-hidden="true" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03.284-2 1.5-2h1.5V1.75c-.273-.037-1.215-.125-2.307-.125C12.42 1.625 10 3.12 10 6.5v3H7v4h3V22h4v-8.5z"/></svg>
                         </a>
                         @endif
                         @if($settings->instagram_url)
-                        <a href="{{ $settings->instagram_url }}" class="hover:text-[var(--color-accent-primary)]">
-                            <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                        <a href="{{ $settings->instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram" class="hover:text-[var(--color-accent-primary)]">
+                            <svg class="h-4 w-4 fill-current" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
                         </a>
                         @endif
                     </div>
@@ -92,8 +95,8 @@
                     <div class="flex w-full items-center justify-between md:hidden">
                         {{-- Left: Hamburger --}}
                         <div class="flex flex-1 justify-start">
-                            <button @click="menuOpen = true" class="text-[var(--color-text-primary)] hover:text-[var(--color-accent-primary)] transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <button @click="menuOpen = true" aria-expanded="false" aria-label="Buka menu navigasi" class="text-[var(--color-text-primary)] hover:text-[var(--color-accent-primary)] transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                                 </svg>
                             </button>
@@ -101,9 +104,9 @@
 
                         {{-- Center: Logo --}}
                         <div class="flex flex-none justify-center">
-                            <a href="{{ route('blog.home') }}" class="flex items-center">
+                            <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="flex items-center">
                                 @if($settings->logo_large_url)
-                                    <img src="{{ $settings->logo_large_url }}" alt="{{ $settings->site_name }}" class="h-9 w-auto transition-all" :class="{ 'brightness-0 invert': dark }">
+                                    <img src="{{ $settings->logo_large_url }}" fetchpriority="high" alt="Logo {{ $settings->site_name }}" class="h-9 w-auto transition-all" :class="{ 'brightness-0 invert': dark }">
                                 @else
                                     <span class="text-2xl font-black italic tracking-tighter text-[var(--color-accent-primary)]">
                                         {{ Str::lower($settings->site_name) }}<span class="text-[var(--color-accent-secondary)]">.id</span>
@@ -114,8 +117,8 @@
 
                         {{-- Right: Search --}}
                         <div class="flex flex-1 justify-end">
-                            <button @click="searchOpen = true" class="text-[var(--color-text-primary)] hover:text-[var(--color-accent-secondary)] transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <button @click="searchOpen = true" aria-expanded="false" aria-label="Buka form pencarian" class="text-[var(--color-text-primary)] hover:text-[var(--color-accent-secondary)] transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                 </svg>
                             </button>
@@ -125,9 +128,9 @@
                     {{-- --- DESKTOP LAYOUT (Hidden on Mobile) --- --}}
                     <div class="hidden w-full items-center justify-between md:flex">
                         {{-- Left: Logo --}}
-                        <a href="{{ route('blog.home') }}" class="flex items-center">
+                        <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="flex items-center">
                             @if($settings->logo_small_url)
-                                <img src="{{ $settings->logo_small_url }}" alt="{{ $settings->site_name }}" class="h-8 w-auto transition-all hover:opacity-80" :class="{ 'brightness-0 invert': dark }">
+                                <img src="{{ $settings->logo_small_url }}" fetchpriority="high" alt="Logo {{ $settings->site_name }}" class="h-8 w-auto transition-all hover:opacity-80" :class="{ 'brightness-0 invert': dark }">
                             @else
                                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-accent-primary)] text-white font-black italic shadow-lg shadow-[var(--color-accent-primary)]/20">
                                     {{ substr($settings->site_name, 0, 1) }}
@@ -147,8 +150,8 @@
 
                         {{-- Right: Search --}}
                         <div class="flex items-center">
-                            <button @click="searchOpen = true" class="text-[var(--color-text-primary)] hover:text-[var(--color-accent-secondary)] transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <button @click="searchOpen = true" aria-expanded="false" aria-label="Buka form pencarian" class="text-[var(--color-text-primary)] hover:text-[var(--color-accent-secondary)] transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                 </svg>
                             </button>
@@ -170,7 +173,7 @@
             x-transition:leave-end="opacity-0"
             class="fixed inset-0 z-[60] flex flex-col items-center justify-start bg-[var(--color-bg-primary)]/98 pt-24 backdrop-blur-xl"
         >
-            <button @click="searchOpen = false" class="absolute right-8 top-8 rounded-full border border-[var(--color-border)] p-3 hover:bg-[var(--color-border)] transition-colors">
+            <button @click="searchOpen = false" aria-label="Tutup form pencarian" class="absolute right-8 top-8 rounded-full border border-[var(--color-border)] p-3 hover:bg-[var(--color-border)] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
@@ -178,7 +181,9 @@
             <div class="w-full max-w-2xl px-8">
                 <p class="mb-6 text-center text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-accent-secondary)]">Cari Artikel</p>
                 <form action="{{ route('blog.search') }}" method="GET">
+                    <label for="search-input" class="sr-only">Cari artikel</label>
                     <input
+                        id="search-input"
                         type="text" name="q"
                         placeholder="Ketik kata kunci..."
                         class="w-full border-b-4 border-[var(--color-accent-primary)] bg-transparent py-4 text-2xl font-black text-[var(--color-text-primary)] focus:outline-none md:text-5xl"
@@ -229,6 +234,7 @@
                         <button
                             @click="dark = !dark"
                             title="Toggle tema"
+                            aria-label="Toggle tema gelap atau terang"
                             class="relative flex h-7 w-[52px] shrink-0 cursor-pointer items-center rounded-full p-0.5 transition-all duration-300"
                             :class="dark ? 'bg-[#1a3525] border border-[#ffb000]/60' : 'bg-[#e8e4b8] border border-[#d4c97a]'"
                         >
@@ -245,7 +251,7 @@
                             </span>
                         </button>
                         {{-- Close button --}}
-                        <button @click="menuOpen = false" class="rounded-full border border-[var(--color-border)] p-2 hover:bg-[var(--color-border)] transition-colors">
+                        <button @click="menuOpen = false" aria-label="Tutup menu navigasi" class="rounded-full border border-[var(--color-border)] p-2 hover:bg-[var(--color-border)] transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                             </svg>
@@ -295,113 +301,92 @@
         </main>
 
         {{-- FOOTER --}}
-        <footer class="bg-[var(--color-accent-primary)] text-[var(--color-bg-primary)] transition-colors duration-300">
-
-            {{-- Top amber rule --}}
-            <div class="h-1 w-full bg-[var(--color-accent-secondary)]"></div>
+        <footer class="bg-[var(--color-accent-primary)] text-[var(--color-bg-primary)] transition-colors duration-300 relative overflow-hidden">
+            {{-- Top thick rule --}}
+            <div class="h-1.5 w-full bg-[var(--color-accent-secondary)]"></div>
 
             {{-- Main body --}}
-            <div class="mx-auto w-full max-w-7xl px-6 py-16">
-                <div class="grid gap-12 md:grid-cols-[2fr_1fr_1fr] lg:gap-20">
+            <div class="mx-auto w-full max-w-7xl px-6 py-16 md:py-24">
+                <div class="flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-20">
 
-                    {{-- Col 1: Logo + tagline --}}
-                    <div>
-                        <a href="{{ route('blog.home') }}" class="inline-block no-underline">
+                    {{-- Left: Logo + tagline --}}
+                    <div class="max-w-md">
+                        <a href="{{ route('blog.home') }}" class="group inline-block no-underline">
                             @if($settings->logo_large_url)
                                 <img src="{{ $settings->logo_large_url }}" alt="{{ $settings->site_name }}" 
-                                     class="h-12 w-auto transition-all"
+                                     class="h-14 w-auto transition-transform duration-500 group-hover:scale-105"
                                      :class="dark ? '' : 'brightness-0 invert'">
                             @else
-                                <span class="text-3xl font-black italic tracking-tighter text-[var(--color-bg-primary)]">
+                                <span class="text-4xl font-black italic tracking-tighter text-[var(--color-bg-primary)] transition-colors group-hover:text-[var(--color-accent-secondary)]">
                                     {{ Str::lower($settings->site_name) }}<span class="text-[var(--color-accent-secondary)]">.id</span>
                                 </span>
                             @endif
                         </a>
-                        <p class="mt-5 max-w-xs text-sm leading-7 opacity-70">
+                        <p class="mt-6 text-sm leading-relaxed opacity-80 xl:text-[15px]">
                             {{ $settings->site_description }}
                         </p>
 
                         {{-- Social icons --}}
-                        <div class="mt-8 flex items-center gap-5">
+                        <div class="mt-10 flex items-center gap-4">
                             @if($settings->x_url)
-                                <a href="{{ $settings->x_url }}" target="_blank" rel="noopener"
-                                   class="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-bg-primary)]/20 text-[var(--color-bg-primary)]/50 transition-all hover:border-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary)] hover:text-[var(--color-accent-primary)]">
-                                    <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                <a href="{{ $settings->x_url }}" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"
+                                   class="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-[var(--color-bg-primary)]/20 text-[var(--color-bg-primary)]/70 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary)] hover:text-[var(--color-accent-primary)] hover:shadow-lg hover:shadow-[var(--color-accent-secondary)]/20">
+                                    <svg class="h-4 w-4 fill-current transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                                 </a>
                             @endif
                             @if($settings->facebook_url)
-                                <a href="{{ $settings->facebook_url }}" target="_blank" rel="noopener"
-                                   class="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-bg-primary)]/20 text-[var(--color-bg-primary)]/50 transition-all hover:border-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary)] hover:text-[var(--color-accent-primary)]">
-                                    <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03.284-2 1.5-2h1.5V1.75c-.273-.037-1.215-.125-2.307-.125C12.42 1.625 10 3.12 10 6.5v3H7v4h3V22h4v-8.5z"/></svg>
+                                <a href="{{ $settings->facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                                   class="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-[var(--color-bg-primary)]/20 text-[var(--color-bg-primary)]/70 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary)] hover:text-[var(--color-accent-primary)] hover:shadow-lg hover:shadow-[var(--color-accent-secondary)]/20">
+                                    <svg class="h-4 w-4 fill-current transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03.284-2 1.5-2h1.5V1.75c-.273-.037-1.215-.125-2.307-.125C12.42 1.625 10 3.12 10 6.5v3H7v4h3V22h4v-8.5z"/></svg>
                                 </a>
                             @endif
                             @if($settings->instagram_url)
-                                <a href="{{ $settings->instagram_url }}" target="_blank" rel="noopener"
-                                   class="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-bg-primary)]/20 text-[var(--color-bg-primary)]/50 transition-all hover:border-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary)] hover:text-[var(--color-accent-primary)]">
-                                    <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                                <a href="{{ $settings->instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                                   class="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-[var(--color-bg-primary)]/20 text-[var(--color-bg-primary)]/70 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary)] hover:text-[var(--color-accent-primary)] hover:shadow-lg hover:shadow-[var(--color-accent-secondary)]/20">
+                                    <svg class="h-4 w-4 fill-current transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
                                 </a>
                             @endif
                         </div>
                     </div>
 
-                    {{-- Col 2: Kategori --}}
-                    <div>
-                        <p class="mb-6 text-[9px] font-black uppercase tracking-[0.3em] text-[var(--color-accent-secondary)]">Kategori</p>
-                        <ul class="space-y-3">
-                            @foreach(($categories ?? collect()) as $navCategory)
-                                <li>
-                                    <a href="{{ route('blog.category', $navCategory->slug) }}"
-                                       class="text-sm font-semibold opacity-70 no-underline transition-colors hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                        {{ $navCategory->name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    {{-- Col 3: Navigasi --}}
-                    <div>
-                        <p class="mb-6 text-[9px] font-black uppercase tracking-[0.3em] text-[var(--color-accent-secondary)]">Navigasi</p>
-                        <ul class="space-y-3">
-                            <li>
-                                <a href="{{ route('blog.home') }}"
-                                   class="text-sm font-semibold opacity-70 no-underline transition-colors hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                    Beranda
-                                </a>
-                            </li>
-                            @auth
-                                <li>
-                                    <a href="/admin"
-                                       class="text-sm font-semibold opacity-70 no-underline transition-colors hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                        Admin Panel
-                                    </a>
-                                </li>
-                            @else
-                                <li>
-                                    <a href="{{ route('filament.admin.auth.login') }}"
-                                       class="text-sm font-semibold opacity-70 no-underline transition-colors hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                        Masuk
-                                    </a>
-                                </li>
-                            @endauth
-                        </ul>
+                    {{-- Right: Navigation & Links --}}
+                    <div class="flex flex-col gap-12 sm:flex-row sm:gap-20">
+                        {{-- Kategori --}}
+                        <div class="min-w-[140px]">
+                            <h3 class="mb-6 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.25em] text-[var(--color-accent-secondary)]">
+                                <span class="h-px w-6 bg-[var(--color-accent-secondary)]"></span>
+                                Topik
+                            </h3>
+                            <ul class="space-y-4">
+                                @foreach(($categories ?? collect()) as $navCategory)
+                                    <li>
+                                        <a href="{{ route('blog.category', $navCategory->slug) }}"
+                                           class="group inline-flex items-center gap-2 text-sm font-semibold opacity-80 no-underline transition-all hover:-translate-y-0.5 hover:text-[var(--color-accent-secondary)] hover:opacity-100">
+                                            {{ $navCategory->name }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
-            {{-- Bottom bar --}}
-            <div class="border-t border-white/10">
-                <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5">
-                    <p class="text-[10px] font-bold uppercase tracking-widest opacity-30">
+            {{-- Bottom copyright bar --}}
+            <div class="border-t-2 border-[var(--color-bg-primary)]/10 bg-black/10">
+                <div class="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
+                    <p class="text-center text-[11px] font-semibold tracking-wider opacity-60">
                         &copy; {{ now()->year }} {{ $settings->site_name }}. Semua hak dilindungi.
                     </p>
-                    <span class="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-accent-secondary)]/60">
+                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-accent-secondary)]/50 transition-colors hover:text-[var(--color-accent-secondary)]/100">
                         {{ $settings->site_name }}
                     </span>
                 </div>
             </div>
-
         </footer>
 
     </div>

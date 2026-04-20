@@ -26,7 +26,7 @@
         </div>
     @else
     {{-- 2. MAIN GRID --}}
-    <div class="lg:grid lg:grid-cols-[1fr_320px] lg:gap-12">
+    <div class="lg:grid lg:grid-cols-[1fr_320px] lg:gap-12 lg:items-start">
         <div class="space-y-12">
             @php $allPosts = $posts->items(); $featuredPost = $posts->currentPage() === 1 ? array_shift($allPosts) : null; @endphp
 
@@ -35,7 +35,7 @@
                    class="group relative block overflow-hidden rounded-3xl transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--color-accent-primary)]/20">
                     <div class="relative flex min-h-[300px] flex-col justify-end bg-[var(--color-accent-primary)] p-8 md:min-h-[400px] md:p-12">
                         @if($cover = $featuredPost->getFirstMediaUrl('post_covers'))
-                            <img src="{{ $cover }}" alt="{{ $featuredPost->title }}"
+                            <img src="{{ $cover }}" alt="{{ $featuredPost->title }}" fetchpriority="high"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
@@ -55,7 +55,7 @@
                             </p>
                             <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--color-accent-secondary)]">
                                 Baca Artikel
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                                 </svg>
                             </span>
@@ -70,19 +70,19 @@
                         @if($thumb = $post->getFirstMediaUrl('post_covers'))
                             <a href="{{ route('blog.post.show', [$category->slug, $post->slug]) }}" 
                                class="block aspect-[4/3] overflow-hidden rounded-2xl border border-[var(--color-border)]">
-                                <img src="{{ $thumb }}" alt="{{ $post->title }}"
+                                <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
                                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </a>
                         @else
                             <div class="aspect-[4/3] rounded-2xl bg-[var(--color-bg-secondary)] opacity-10 flex items-center justify-center border border-[var(--color-border)]">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[var(--color-text-secondary)] opacity-10" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-8 w-8 text-[var(--color-text-secondary)] opacity-10" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                                 </svg>
                             </div>
                         @endif
 
                         <div class="flex flex-col py-1">
-                            <time class="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-40">
+                            <time class="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-70">
                                 {{ optional($post->published_at)->translatedFormat('d M Y') }}
                             </time>
                             <h3 class="mb-3 text-xl font-bold leading-tight tracking-tight text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-primary)] transition-colors">
@@ -93,7 +93,7 @@
                             <p class="mb-5 line-clamp-2 text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-70">
                                 {{ $post->excerpt }}
                             </p>
-                            <div class="mt-auto flex items-center gap-2 text-[11px] font-semibold text-[var(--color-text-secondary)] opacity-40">
+                            <div class="mt-auto flex items-center gap-2 text-[11px] font-semibold text-[var(--color-text-secondary)] opacity-70">
                                 <span>{{ $post->user?->name }}</span>
                                 <span>&middot;</span>
                                 <span>{{ number_format($post->views_count) }} Views</span>
@@ -105,7 +105,7 @@
             <x-pagination :paginator="$posts" />
         </div>
 
-        <aside class="mt-16 lg:mt-0">
+        <aside class="mt-16 lg:mt-0 sticky top-24">
             <div class="h-full space-y-12">
                 @if($recentPosts->isNotEmpty())
                 <div>
@@ -119,14 +119,14 @@
                                class="group flex items-center gap-4 no-underline">
                                 <div class="relative h-[56px] w-[74px] shrink-0 overflow-hidden rounded-lg bg-[var(--color-border)] opacity-40">
                                     @if($rCover = $r->getFirstMediaUrl('post_covers', 'thumb'))
-                                        <img src="{{ $rCover }}" alt="{{ $r->title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                        <img src="{{ $rCover }}" alt="{{ $r->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
                                     @endif
                                 </div>
                                 <div>
                                     <p class="text-[13px] font-bold leading-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-primary)]">
                                         {{ $r->title }}
                                     </p>
-                                    <time class="mt-1.5 block text-[9px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-30">
+                                    <time class="mt-1.5 block text-[9px] font-bold uppercase tracking-widest text-[var(--color-text-secondary)] opacity-60">
                                         {{ optional($r->published_at)->translatedFormat('d M Y') }}
                                     </time>
                                 </div>
