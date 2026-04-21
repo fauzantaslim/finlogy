@@ -39,3 +39,74 @@
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 }
+
+    @layer components {
+    .static-page-prose {
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+
+    .static-page-prose ul {
+        list-style-type: disc !important;
+        padding-left: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+        margin-top: 1rem !important;
+    }
+
+    .static-page-prose ol {
+        list-style-type: decimal !important;
+        padding-left: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+        margin-top: 1rem !important;
+    }
+
+    .static-page-prose li {
+        margin-bottom: 0.75rem !important;
+        display: list-item !important;
+    }
+
+    .static-page-prose li::marker {
+        color: var(--color-accent-secondary) !important;
+        font-weight: 800 !important;
+    }
+
+    .static-page-prose p {
+        margin-bottom: 1.25rem !important;
+        opacity: 0.9;
+    }
+
+    .static-page-prose h2 {
+        font-size: 1.75rem !important;
+        font-weight: 900 !important;
+        margin-top: 2.5rem !important;
+        margin-bottom: 1.25rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: -0.025em !important;
+        color: var(--color-text-primary) !important;
+        border-left: 4px solid var(--color-accent-secondary);
+        padding-left: 1rem;
+    }
+
+    .static-page-prose h3 {
+        font-size: 1.25rem !important;
+        font-weight: 800 !important;
+        margin-top: 2rem !important;
+        margin-bottom: 1rem !important;
+        color: var(--color-text-primary) !important;
+    }
+
+    .static-page-prose strong {
+        color: var(--color-text-primary) !important;
+    }
+
+    .static-page-prose a {
+        color: var(--color-accent-primary) !important;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .static-page-prose a:hover {
+        text-decoration: underline;
+    }
+
+}

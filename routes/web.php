@@ -12,11 +12,11 @@ use Spatie\Sitemap\Tags\Url;
 use Spatie\Tags\Tag;
 
 // STATIC PAGES
-Route::get('/tentang-kami', [PageController::class, 'about'])->name('page.about');
-Route::get('/kontak', [PageController::class, 'contact'])->name('page.contact');
-Route::get('/kebijakan-privasi', [PageController::class, 'privacy'])->name('page.privacy');
-Route::get('/penafian', [PageController::class, 'disclaimer'])->name('page.disclaimer');
-Route::get('/syarat-ketentuan', [PageController::class, 'tos'])->name('page.tos');
+Route::get('/about-us', [PageController::class, 'about'])->name('page.about');
+Route::get('/contact', [PageController::class, 'contact'])->name('page.contact');
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('page.privacy');
+Route::get('/disclaimer', [PageController::class, 'disclaimer'])->name('page.disclaimer');
+Route::get('/terms-and-conditions', [PageController::class, 'tos'])->name('page.tos');
 
 // Sitemap.xml (Dynamic)
 Route::get('/sitemap.xml', function () {

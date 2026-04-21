@@ -400,7 +400,7 @@
                                 <li>
                                     <a href="{{ route('page.disclaimer') }}"
                                        class="group inline-flex items-center gap-2 text-sm font-semibold opacity-80 no-underline transition-all hover:-translate-y-0.5 hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                        Penafian Lengkap
+                                        Disclaimer
                                         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
                                         </svg>
@@ -428,33 +428,12 @@
                                 <li>
                                     <a href="{{ route('page.tos') }}"
                                        class="group inline-flex items-center gap-2 text-sm font-semibold opacity-80 no-underline transition-all hover:-translate-y-0.5 hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                        Syarat Ketentuan
+                                        Terms and Conditions
                                         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
                                         </svg>
                                     </a>
                                 </li>
-                                @auth
-                                    <li>
-                                        <a href="/admin"
-                                           class="group inline-flex items-center gap-2 text-sm font-semibold opacity-80 no-underline transition-all hover:-translate-y-0.5 hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                            Admin Panel
-                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ route('filament.admin.auth.login') }}"
-                                           class="group inline-flex items-center gap-2 text-sm font-semibold opacity-80 no-underline transition-all hover:-translate-y-0.5 hover:text-[var(--color-accent-secondary)] hover:opacity-100">
-                                            Login Panel
-                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                @endauth
                             </ul>
                         </div>
                     </div>
