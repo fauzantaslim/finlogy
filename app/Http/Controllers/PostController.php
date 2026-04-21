@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Settings\GeneralSettings;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\View\View;
 
 class PostController extends Controller
@@ -52,23 +51,13 @@ class PostController extends Controller
             ->get();
 
         $description = $post->excerpt ?: str($post->content)->stripTags()->limit(160)->toString();
-        SEOTools::setTitle("{$post->title} | {$settings->site_name}");
-        SEOTools::setDescription($description);
 
-        SEOTools::opengraph()->setType('article');
-        SEOTools::opengraph()->setTitle($post->title);
-        SEOTools::opengraph()->setDescription($description);
-
-        SEOTools::jsonLd()->setType('Article');
-        SEOTools::jsonLd()->setTitle($post->title);
-        SEOTools::jsonLd()->setDescription($description);
-
-        $cover = $post->getFirstMediaUrl('post_covers');
-        if (filled($cover)) {
-            SEOTools::opengraph()->addImage($cover);
-            SEOTools::jsonLd()->addImage($cover);
-            SEOTools::twitter()->setImage($cover);
-        }
+        $this->configureSeo(
+            $post->title,
+            $description,
+            $post->getFirstMediaUrl('post_covers'),
+            'Article'
+        );
 
         return view('blog.show', [
             'settings' => $settings,

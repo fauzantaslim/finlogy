@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Settings\GeneralSettings;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Tags\Tag;
@@ -48,10 +47,12 @@ class BlogController extends Controller
             }])
             ->get();
 
-        SEOTools::setTitle($settings->default_meta_title ?: $settings->site_name);
-        SEOTools::setDescription($settings->default_meta_description ?: $settings->site_description);
-        SEOTools::opengraph()->setType('WebSite');
-        SEOTools::jsonLd()->setType('WebSite');
+        $this->configureSeo(
+            $settings->default_meta_title ?: $settings->site_name,
+            $settings->default_meta_description ?: $settings->site_description,
+            null,
+            'WebSite'
+        );
 
         return view('blog.index', [
             'settings' => $settings,
@@ -79,8 +80,12 @@ class BlogController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        SEOTools::setTitle("Kategori: {$category->name} | {$settings->site_name}");
-        SEOTools::setDescription($category->description ?: $settings->site_description);
+        $this->configureSeo(
+            "Kategori: {$category->name}",
+            $category->description ?: $settings->site_description,
+            null,
+            'CollectionPage'
+        );
 
         return view('blog.category', [
             'settings' => $settings,
@@ -112,8 +117,12 @@ class BlogController extends Controller
 
         $tagName = $tag->name;
 
-        SEOTools::setTitle("Tag: {$tagName} | {$settings->site_name}");
-        SEOTools::setDescription("Artikel dengan tag {$tagName} di {$settings->site_name}.");
+        $this->configureSeo(
+            "Tag: {$tagName}",
+            "Artikel dengan tag {$tagName} di {$settings->site_name}.",
+            null,
+            'CollectionPage'
+        );
 
         return view('blog.tag', [
             'settings' => $settings,
@@ -139,8 +148,12 @@ class BlogController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        SEOTools::setTitle("Cari: {$query} | {$settings->site_name}");
-        SEOTools::setDescription("Hasil pencarian untuk '{$query}' di {$settings->site_name}.");
+        $this->configureSeo(
+            "Cari: {$query}",
+            "Hasil pencarian untuk '{$query}' di {$settings->site_name}.",
+            null,
+            'SearchResultsPage'
+        );
 
         return view('blog.search', [
             'settings' => $settings,

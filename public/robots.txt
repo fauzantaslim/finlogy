@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /filament/
+Disallow: /vendor/
+
+Sitemap: https://evenly.fauzantaslim.biz.id/sitemap.xml
