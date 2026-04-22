@@ -45,7 +45,7 @@
                         <div class="mb-2 flex items-center gap-3">
                             @if($post->category)
                                 <a href="{{ route('blog.category', $post->category->slug) }}"
-                                   class="rounded-sm bg-[var(--color-accent-primary)] opacity-10 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-accent-primary)] no-underline">
+                                   class="rounded-sm bg-accent-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-bg-primary no-underline hover:bg-accent-secondary hover:text-accent-primary transition-colors">
                                     {{ $post->category->name }}
                                 </a>
                             @endif
