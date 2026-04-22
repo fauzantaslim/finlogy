@@ -139,10 +139,10 @@
                         </a>
 
                         {{-- Center: Nav Links --}}
-                        <div class="flex items-center gap-8">
+                        <div class="flex flex-1 items-center justify-center gap-8 overflow-x-auto whitespace-nowrap px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                             @foreach(($categories ?? collect()) as $navCategory)
                                 <a href="{{ route('blog.category', $navCategory->slug) }}"
-                                   class="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-text-primary)] hover:text-[var(--color-accent-secondary)] transition-colors @if(request()->is('kategori/' . $navCategory->slug . '*')) text-[var(--color-accent-secondary)] @endif">
+                                   class="shrink-0 text-xs font-black uppercase tracking-[0.2em] text-[var(--color-text-primary)] hover:text-[var(--color-accent-secondary)] transition-colors @if(request()->is('kategori/' . $navCategory->slug . '*')) text-[var(--color-accent-secondary)] @endif">
                                     {{ $navCategory->name }}
                                 </a>
                             @endforeach

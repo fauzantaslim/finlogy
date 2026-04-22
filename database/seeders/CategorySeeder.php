@@ -30,7 +30,7 @@ class CategorySeeder extends Seeder
                     'description' => $description,
                     'is_visible' => true,
                 ]
-            );
+            );  
         }
     }
 }
