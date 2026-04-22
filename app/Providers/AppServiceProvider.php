@@ -3,10 +3,14 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Post;
+use App\Observers\CategoryObserver;
+use App\Observers\PostObserver;
 use App\Settings\GeneralSettings;
 use Google\Client;
 use Google\Service\Drive;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
@@ -28,10 +32,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Share settings and categories to all views globally
-        View::composer('*', function ($view) {
-            $view->with('settings', app(GeneralSettings::class));
-            $view->with('categories', Category::query()->where('is_visible', true)->orderBy('name')->get());
+        View::share('settings', app(GeneralSettings::class));
+
+        $cachedCategories = Cache::rememberForever('categories.global_nav', function () {
+            return Category::query()->where('is_visible', true)->orderBy('name')->get()->toArray();
         });
+        View::share('categories', Category::hydrate($cachedCategories));
+
+        Category::observe(CategoryObserver::class);
+        Post::observe(PostObserver::class);
 
         $this->backupGoogleDrive();
     }

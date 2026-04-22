@@ -14,6 +14,9 @@ use Spatie\Tags\Tag;
 // STATIC PAGES
 Route::get('/about-us', [PageController::class, 'about'])->name('page.about');
 Route::get('/contact', [PageController::class, 'contact'])->name('page.contact');
+Route::post('/contact', [PageController::class, 'submitContact'])
+    ->name('contact.submit')
+    ->middleware('throttle:5,1'); // Limit 5 requests per minute per IP
 Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('page.privacy');
 Route::get('/disclaimer', [PageController::class, 'disclaimer'])->name('page.disclaimer');
 Route::get('/terms-and-conditions', [PageController::class, 'tos'])->name('page.tos');

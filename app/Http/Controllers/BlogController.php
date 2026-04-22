@@ -48,7 +48,7 @@ class BlogController extends Controller
             ->get();
 
         $this->configureSeo(
-            $settings->default_meta_title ?: $settings->site_name,
+            $settings->default_meta_title ?: 'Home',
             $settings->default_meta_description ?: $settings->site_description,
             null,
             'WebSite'
@@ -59,7 +59,6 @@ class BlogController extends Controller
             'featuredPost' => $featuredPost,
             'latestPosts' => $latestPosts,
             'popularPosts' => $popularPosts,
-            'categories' => $this->visibleCategories(),
             'categoriesWithPosts' => $categoriesWithPosts,
         ]);
     }
@@ -91,7 +90,6 @@ class BlogController extends Controller
             'settings' => $settings,
             'category' => $category,
             'posts' => $posts,
-            'categories' => $this->visibleCategories(),
             'recentPosts' => $this->publishedPostsQuery()->whereBelongsTo($category)->latest('published_at')->take(5)->get(),
             'popularPosts' => $this->publishedPostsQuery()->whereBelongsTo($category)->orderByDesc('views_count')->take(5)->get(),
         ]);
@@ -128,7 +126,6 @@ class BlogController extends Controller
             'settings' => $settings,
             'tag' => $tag,
             'posts' => $posts,
-            'categories' => $this->visibleCategories(),
         ]);
     }
 
@@ -159,7 +156,6 @@ class BlogController extends Controller
             'settings' => $settings,
             'posts' => $posts,
             'query' => $query,
-            'categories' => $this->visibleCategories(),
         ]);
     }
 
@@ -170,13 +166,5 @@ class BlogController extends Controller
             ->where('status', 'published')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
-    }
-
-    private function visibleCategories()
-    {
-        return Category::query()
-            ->where('is_visible', true)
-            ->orderBy('name')
-            ->get();
     }
 }

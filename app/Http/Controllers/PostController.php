@@ -65,7 +65,6 @@ class PostController extends Controller
             'relatedPosts' => $relatedPosts,
             'popularPosts' => $popularPosts,
             'latestPosts' => $latestPosts,
-            'categories' => Category::query()->where('is_visible', true)->orderBy('name')->get(),
         ]);
     }
 }

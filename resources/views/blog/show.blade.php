@@ -45,31 +45,20 @@
                     </div>
 
                     {{-- Share button + dropdown --}}
-                    <div class="relative" x-data="{ open: false }">
-                        <button
-                            @click="open = !open"
-                            @click.outside="open = false"
-                            :aria-expanded="open"
-                            aria-label="Bagikan artikel ini"
-                            title="Bagikan artikel"
-                            class="flex h-9 w-9 items-center justify-center rounded-full border border-border text-text-secondary opacity-80 transition-all hover:border-accent-secondary hover:bg-accent-secondary hover:text-accent-primary hover:opacity-100"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-                            </svg>
-                        </button>
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button
+                                aria-label="Bagikan artikel ini"
+                                title="Bagikan artikel"
+                                class="flex h-9 w-9 items-center justify-center rounded-full border border-border text-text-secondary opacity-80 transition-all hover:border-accent-secondary hover:bg-accent-secondary hover:text-accent-primary hover:opacity-100"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                </svg>
+                            </button>
+                        </x-slot>
 
-                        {{-- Dropdown --}}
-                        <div
-                            x-show="open"
-                            x-transition:enter="transition ease-out duration-150"
-                            x-transition:enter-start="opacity-0 scale-95 translate-y-1"
-                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                            x-transition:leave="transition ease-in duration-100"
-                            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                            x-transition:leave-end="opacity-0 scale-95 translate-y-1"
-                            class="absolute right-0 top-11 z-50 w-48 origin-top-right rounded-xl border border-border bg-accent-primary p-1.5 shadow-2xl shadow-black/20"
-                        >
+                        <x-slot name="content">
                             {{-- Twitter / X --}}
                             <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($post->title) }}"
                                target="_blank" rel="noopener"
@@ -94,15 +83,15 @@
 
                             {{-- Copy Link --}}
                             <button
-                                @click="navigator.clipboard.writeText('{{ request()->url() }}').then(() => { open = false; })"
+                                @click="navigator.clipboard.writeText('{{ request()->url() }}').then(() => { $dispatch('close') })"
                                 class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-bg-primary transition-colors hover:bg-accent-secondary hover:text-[#004225]">
                                 <svg class="h-4 w-4 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                                 </svg>
                                 Salin Tautan
                             </button>
-                        </div>
-                    </div>
+                        </x-slot>
+                    </x-dropdown>
                 </div>
 
                 {{-- Cover Image --}}

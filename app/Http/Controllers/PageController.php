@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\ContactMessage;
 use App\Settings\GeneralSettings;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -13,7 +14,6 @@ class PageController extends Controller
 
         return view('pages.about', [
             'settings' => $settings,
-            'categories' => Category::query()->where('is_visible', true)->orderBy('name')->get(),
         ]);
     }
 
@@ -23,8 +23,21 @@ class PageController extends Controller
 
         return view('pages.contact', [
             'settings' => $settings,
-            'categories' => Category::query()->where('is_visible', true)->orderBy('name')->get(),
         ]);
+    }
+
+    public function submitContact(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:5000',
+        ]);
+
+        ContactMessage::create($validated);
+
+        return redirect()->back()->with('success', 'Pesan Anda berhasil dikirim. Kami akan membalasnya sesegera mungkin.');
     }
 
     public function privacy(GeneralSettings $settings)
@@ -33,7 +46,6 @@ class PageController extends Controller
 
         return view('pages.privacy', [
             'settings' => $settings,
-            'categories' => Category::query()->where('is_visible', true)->orderBy('name')->get(),
         ]);
     }
 
@@ -43,7 +55,6 @@ class PageController extends Controller
 
         return view('pages.disclaimer', [
             'settings' => $settings,
-            'categories' => Category::query()->where('is_visible', true)->orderBy('name')->get(),
         ]);
     }
 
@@ -53,7 +64,6 @@ class PageController extends Controller
 
         return view('pages.tos', [
             'settings' => $settings,
-            'categories' => Category::query()->where('is_visible', true)->orderBy('name')->get(),
         ]);
     }
 }
