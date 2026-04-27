@@ -20,7 +20,7 @@
     <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @forelse($posts as $post)
             <article class="group flex flex-col overflow-hidden rounded-xl border-2 border-[var(--color-bg-secondary)] bg-[var(--color-bg-primary)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-accent-secondary)] hover:shadow-[0_12px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-[var(--color-accent-secondary)]/20">
-                @if($thumb = $post->getFirstMediaUrl('post_covers'))
+                @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                     <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}" class="relative block overflow-hidden aspect-[4/3] border-b-2 border-[var(--color-bg-secondary)] group-hover:border-[var(--color-accent-secondary)]/30 transition-colors">
                         <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
                              class="absolute inset-0 h-full w-full object-cover mix-blend-multiply opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100">

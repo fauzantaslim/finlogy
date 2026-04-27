@@ -95,7 +95,7 @@
                 </div>
 
                 {{-- Cover Image --}}
-                @if($cover = $post->getFirstMediaUrl('post_covers'))
+                @if($cover = $post->getFirstMediaUrl('post_covers', 'optimized'))
                     <figure class="mb-10">
                         <img src="{{ $cover }}" alt="{{ $post->title }}" fetchpriority="high"
                              class="w-full rounded-2xl border border-border object-cover shadow-sm">
@@ -143,6 +143,48 @@
                     md:prose-lg">
                     {!! $content !!}
                 </div>
+
+                {{-- FAQ SECTION --}}
+                @if($post->faqs->isNotEmpty())
+                    <div class="mt-16 border-t border-border pt-12">
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-black tracking-tight text-text-primary md:text-3xl">Pertanyaan yang Sering <span class="text-accent-secondary">Diajukan</span></h2>
+                            <p class="mt-2 text-sm text-text-secondary/70">Punya pertanyaan? Mungkin jawaban di bawah ini bisa membantu Anda.</p>
+                        </div>
+
+                        <div class="space-y-4" x-data="{ active: null }">
+                            @foreach($post->faqs as $faq)
+                                <div class="overflow-hidden rounded-2xl border border-border bg-bg-secondary/5 transition-all">
+                                    <button
+                                        @click="active !== {{ $faq->id }} ? active = {{ $faq->id }} : active = null"
+                                        class="flex w-full items-center justify-between p-5 text-left transition-colors hover:bg-bg-secondary/10"
+                                        :class="{ 'bg-bg-secondary/10': active === {{ $faq->id }} }"
+                                    >
+                                        <span class="pr-4 text-sm font-bold text-text-primary md:text-base">{{ $faq->question }}</span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-5 w-5 shrink-0 text-accent-secondary transition-transform duration-300"
+                                            :class="{ 'rotate-180': active === {{ $faq->id }} }"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                        >
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+
+                                    <div
+                                        x-show="active === {{ $faq->id }}"
+                                        x-collapse
+                                        style="display: none;"
+                                    >
+                                        <div class="border-t border-border p-5 pt-4 text-sm leading-relaxed text-text-secondary md:text-base">
+                                            {!! nl2br(e($faq->answer)) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
                 {{-- Tags --}}
                 @if($post->tags->isNotEmpty())

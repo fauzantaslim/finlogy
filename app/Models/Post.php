@@ -29,6 +29,7 @@ class Post extends Model implements HasMedia
         'title',
         'slug',
         'excerpt',
+        'meta_description',
         'content',
         'status',
         'published_at',
@@ -53,6 +54,11 @@ class Post extends Model implements HasMedia
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function faqs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PostFaq::class)->orderBy('sort_order');
     }
 
     public function getSlugOptions(): SlugOptions
@@ -81,11 +87,15 @@ class Post extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(400)
             ->height(300)
+            ->format('webp')
+            ->quality(80)
             ->sharpen(10);
 
         $this->addMediaConversion('optimized')
             ->width(1200)
             ->height(630)
+            ->format('webp')
+            ->quality(85)
             ->sharpen(10);
     }
 }

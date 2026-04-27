@@ -18,7 +18,7 @@
             {{-- LEFT COLUMN --}}
             <div class="flex flex-col gap-1.5 lg:row-span-2 lg:h-full">
                 @foreach($heroLeft as $post)
-                    @php $thumb = $post->getFirstMediaUrl('post_covers'); @endphp
+                    @php $thumb = $post->getFirstMediaUrl('post_covers', 'thumb'); @endphp
                     <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
                        class="group relative block flex-1 overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[200px] sm:min-h-[220px]">
                         @if($thumb)
@@ -51,7 +51,7 @@
             {{-- CENTER --}}
             <div class="lg:row-span-2">
                 @if($featuredPost)
-                    @php $featuredCover = $featuredPost->getFirstMediaUrl('post_covers'); @endphp
+                    @php $featuredCover = $featuredPost->getFirstMediaUrl('post_covers', 'optimized'); @endphp
                     <a href="{{ route('blog.post.show', [$featuredPost->category?->slug ?? 'umum', $featuredPost->slug]) }}"
                        class="group relative block h-full overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[420px] sm:min-h-[500px] lg:min-h-0">
                         @if($featuredCover)
@@ -87,7 +87,7 @@
             {{-- RIGHT COLUMN --}}
             <div class="flex flex-col gap-1.5 lg:row-span-2 lg:h-full">
                 @if($heroRight->isNotEmpty())
-                    @php $rightFirst = $heroRight->first(); $thumbR1 = $rightFirst->getFirstMediaUrl('post_covers'); @endphp
+                    @php $rightFirst = $heroRight->first(); $thumbR1 = $rightFirst->getFirstMediaUrl('post_covers', 'thumb'); @endphp
                     <a href="{{ route('blog.post.show', [$rightFirst->category?->slug ?? 'umum', $rightFirst->slug]) }}"
                        class="group relative block overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[200px] sm:min-h-[260px] lg:flex-[3] lg:min-h-0">
                         @if($thumbR1)
@@ -111,7 +111,7 @@
                     </a>
 
                     @if($heroRight->count() > 1)
-                        @php $rightSecond = $heroRight->get(1); $thumbR2 = $rightSecond->getFirstMediaUrl('post_covers'); @endphp
+                        @php $rightSecond = $heroRight->get(1); $thumbR2 = $rightSecond->getFirstMediaUrl('post_covers', 'thumb'); @endphp
                         <a href="{{ route('blog.post.show', [$rightSecond->category?->slug ?? 'umum', $rightSecond->slug]) }}"
                            class="group relative block overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[180px] sm:min-h-[200px] lg:flex-[2]">
                             @if($thumbR2)
@@ -157,7 +157,7 @@
                     <div class="flex flex-col divide-y divide-[var(--color-border)] border-b border-[var(--color-border)]">
                         @forelse($remainingPosts as $post)
                             <article class="group grid gap-6 py-8 md:grid-cols-[200px_1fr] lg:grid-cols-[240px_1fr]">
-                                @if($thumb = $post->getFirstMediaUrl('post_covers'))
+                                @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                                     <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
                                        class="block aspect-[4/3] w-full overflow-hidden border border-[var(--color-border)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0_0_var(--color-text-primary)]">
                                         <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0">
@@ -210,7 +210,7 @@
                     <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
                         @foreach($cat->posts as $post)
                             <article class="group flex flex-col gap-4">
-                                @if($thumb = $post->getFirstMediaUrl('post_covers'))
+                                @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                                     <a href="{{ route('blog.post.show', [$cat->slug, $post->slug]) }}"
                                        class="block w-full aspect-[16/9] overflow-hidden border border-[var(--color-border)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0_0_var(--color-text-primary)]">
                                         <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">

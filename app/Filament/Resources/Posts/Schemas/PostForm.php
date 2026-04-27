@@ -48,6 +48,12 @@ class PostForm
                             ->label('Ringkasan')
                             ->rows(3)
                             ->columnSpanFull(),
+                        Textarea::make('meta_description')
+                            ->label('Meta Description (SEO)')
+                            ->rows(3)
+                            ->maxLength(160)
+                            ->helperText('Deskripsi singkat untuk hasil pencarian Google (Max 160 karakter).')
+                            ->columnSpanFull(),
                         RichEditor::make('content')
                             ->label('Isi Artikel')
                             ->required()

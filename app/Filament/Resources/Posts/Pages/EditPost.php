@@ -19,13 +19,18 @@ class EditPost extends EditRecord
     }
 
     /**
-     * Populate the cover_image field with the current media URL
+     * Populate the cover_image field with the current media path
      * so the user can see the existing cover on the edit form.
      */
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        // We keep cover_image empty — FileUpload handles display via its own state.
-        // The existing cover is shown separately in the form via the preview.
+        $media = $this->record->getFirstMedia('post_covers');
+
+        if ($media) {
+            // Provide the disk-relative path so FileUpload can find it
+            $data['cover_image'] = $media->id . '/' . $media->file_name;
+        }
+
         return $data;
     }
 

@@ -34,7 +34,7 @@
                 <a href="{{ route('blog.post.show', [$category->slug, $featuredPost->slug]) }}"
                    class="group relative block overflow-hidden rounded-3xl transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--color-accent-primary)]/20">
                     <div class="relative flex min-h-[300px] flex-col justify-end bg-[var(--color-accent-primary)] p-8 md:min-h-[400px] md:p-12">
-                        @if($cover = $featuredPost->getFirstMediaUrl('post_covers'))
+                        @if($cover = $featuredPost->getFirstMediaUrl('post_covers', 'optimized'))
                             <img src="{{ $cover }}" alt="{{ $featuredPost->title }}" fetchpriority="high"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
@@ -67,7 +67,7 @@
             <div class="space-y-8 divide-y divide-[var(--color-border)]">
                 @foreach($allPosts as $post)
                     <article class="group grid gap-6 pt-8 first:pt-0 md:grid-cols-[200px_1fr]">
-                        @if($thumb = $post->getFirstMediaUrl('post_covers'))
+                        @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                             <a href="{{ route('blog.post.show', [$category->slug, $post->slug]) }}" 
                                class="block aspect-[4/3] overflow-hidden rounded-2xl border border-[var(--color-border)]">
                                 <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
