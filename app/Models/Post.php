@@ -89,13 +89,15 @@ class Post extends Model implements HasMedia
             ->height(300)
             ->format('webp')
             ->quality(80)
-            ->sharpen(10);
+            ->sharpen(10)
+            ->nonQueued();
 
         $this->addMediaConversion('optimized')
             ->width(1200)
             ->height(630)
             ->format('webp')
             ->quality(85)
-            ->sharpen(10);
+            ->sharpen(10)
+            ->nonQueued();
     }
 }
