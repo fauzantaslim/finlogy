@@ -15,9 +15,7 @@
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#E8E4B8" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#00331c" />
     {!! \Artesaos\SEOTools\Facades\SEOTools::generate() !!}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+    @googlefonts('poppins')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -58,7 +56,7 @@
                     {{-- Center: Logo --}}
                     <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="group flex items-center justify-center no-underline">
                         @if($logoLarge = $settings->logo_large_url)
-                            <img src="{{ $logoLarge }}" alt="Logo {{ $settings->site_name }}" fetchpriority="high" class="h-12 md:h-16 w-auto transition-all hover:scale-[1.02]" :class="{ 'brightness-0 invert': dark }">
+                            <img src="{{ $logoLarge }}" alt="Logo {{ $settings->site_name }}" fetchpriority="high" width="200" height="64" class="h-12 md:h-16 w-auto transition-all hover:scale-[1.02]" :class="{ 'brightness-0 invert': dark }">
                         @else
                             <span class="text-3xl font-black italic tracking-tighter text-[var(--color-accent-primary)] md:text-4xl transition-transform hover:scale-[1.02]">
                                 {{ Str::lower($settings->site_name) }}<span class="text-[var(--color-accent-secondary)]">.id</span>

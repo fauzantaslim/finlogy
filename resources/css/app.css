@@ -37,13 +37,30 @@
         background-color: var(--color-bg-primary);
         color: var(--color-text-primary);
         transition: background-color 0.3s ease, color 0.3s ease;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        content-visibility: auto;
     }
 }
 
-    @layer components {
+@layer components {
     .static-page-prose, .prose {
         color: var(--color-text-secondary);
         line-height: 1.6;
+    }
+
+    .static-page-prose img, .prose img {
+        border-radius: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     }
 
     .static-page-prose ul, .prose ul {
@@ -146,5 +163,4 @@
     .static-page-prose table p, .prose table p {
         margin-bottom: 0 !important;
     }
-
 }

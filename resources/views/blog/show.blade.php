@@ -98,6 +98,7 @@
                 @if($cover = $post->getFirstMediaUrl('post_covers', 'optimized'))
                     <figure class="mb-10">
                         <img src="{{ $cover }}" alt="{{ $post->title }}" fetchpriority="high"
+                             width="1200" height="630"
                              class="w-full rounded-2xl border border-border object-cover shadow-sm">
                     </figure>
                 @endif
@@ -109,9 +110,9 @@
                         $relatedList = '';
                         foreach($relatedPosts->take(2) as $relatedPost) {
                             $url = route('blog.post.show', [$relatedPost->category?->slug ?? 'umum', $relatedPost->slug]);
-                            $img = $relatedPost->getFirstMediaUrl('post_covers');
+                            $img = $relatedPost->getFirstMediaUrl('post_covers', 'thumb');
                             $imgHtml = $img
-                                ? '<img src="'.$img.'" alt="'.$relatedPost->title.'" loading="lazy" decoding="async" class="m-0 h-[76px] w-[100px] flex-shrink-0 rounded-lg object-cover">'
+                                ? '<img src="'.$img.'" alt="'.$relatedPost->title.'" loading="lazy" decoding="async" width="100" height="76" class="m-0 h-[76px] w-[100px] flex-shrink-0 rounded-lg object-cover">'
                                 : '<div class="m-0 h-[76px] w-[100px] flex-shrink-0 rounded-lg bg-border/20"></div>';
                             $title = htmlspecialchars($relatedPost->title);
                             $relatedList .= '<a href="'.$url.'" class="group/bj flex items-center gap-4 no-underline">'.$imgHtml.'<span class="text-sm font-bold leading-snug text-text-primary transition-colors group-hover/bj:text-accent-secondary">'.$title.'</span></a>';

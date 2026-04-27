@@ -23,6 +23,7 @@
                        class="group relative block flex-1 overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[200px] sm:min-h-[220px]">
                         @if($thumb)
                             <img src="{{ $thumb }}" alt="{{ $post->title }}" fetchpriority="high"
+                                 width="400" height="300"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -56,6 +57,7 @@
                        class="group relative block h-full overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[420px] sm:min-h-[500px] lg:min-h-0">
                         @if($featuredCover)
                             <img src="{{ $featuredCover }}" alt="{{ $featuredPost->title }}" fetchpriority="high"
+                                 width="1200" height="630"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
@@ -92,6 +94,7 @@
                        class="group relative block overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[200px] sm:min-h-[260px] lg:flex-[3] lg:min-h-0">
                         @if($thumbR1)
                             <img src="{{ $thumbR1 }}" alt="{{ $rightFirst->title }}" fetchpriority="high"
+                                 width="400" height="300"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -116,6 +119,7 @@
                            class="group relative block overflow-hidden rounded-2xl bg-[var(--color-accent-primary)] min-h-[180px] sm:min-h-[200px] lg:flex-[2]">
                             @if($thumbR2)
                                 <img src="{{ $thumbR2 }}" alt="{{ $rightSecond->title }}" fetchpriority="high"
+                                     width="400" height="300"
                                      class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -160,7 +164,9 @@
                                 @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                                     <a href="{{ route('blog.post.show', [$post->category?->slug ?? 'umum', $post->slug]) }}"
                                        class="block aspect-[4/3] w-full overflow-hidden border border-[var(--color-border)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0_0_var(--color-text-primary)]">
-                                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0">
+                                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
+                                             width="400" height="300"
+                                             class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0">
                                     </a>
                                 @else
                                     <div class="flex aspect-[4/3] w-full items-center justify-center border border-[var(--color-border)] bg-[var(--color-bg-secondary)] opacity-10"></div>
@@ -213,7 +219,9 @@
                                 @if($thumb = $post->getFirstMediaUrl('post_covers', 'thumb'))
                                     <a href="{{ route('blog.post.show', [$cat->slug, $post->slug]) }}"
                                        class="block w-full aspect-[16/9] overflow-hidden border border-[var(--color-border)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0_0_var(--color-text-primary)]">
-                                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                        <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
+                                             width="400" height="300"
+                                             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                                     </a>
                                 @endif
                                 <div>

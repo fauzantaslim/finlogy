@@ -36,6 +36,7 @@
                     <div class="relative flex min-h-[300px] flex-col justify-end bg-[var(--color-accent-primary)] p-8 md:min-h-[400px] md:p-12">
                         @if($cover = $featuredPost->getFirstMediaUrl('post_covers', 'optimized'))
                             <img src="{{ $cover }}" alt="{{ $featuredPost->title }}" fetchpriority="high"
+                                 width="1200" height="630"
                                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
@@ -71,6 +72,7 @@
                             <a href="{{ route('blog.post.show', [$category->slug, $post->slug]) }}" 
                                class="block aspect-[4/3] overflow-hidden rounded-2xl border border-[var(--color-border)]">
                                 <img src="{{ $thumb }}" alt="{{ $post->title }}" loading="lazy" decoding="async"
+                                     width="400" height="300"
                                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </a>
                         @else
@@ -119,7 +121,9 @@
                                class="group flex items-center gap-4 no-underline">
                                 <div class="relative h-[56px] w-[74px] shrink-0 overflow-hidden rounded-lg bg-[var(--color-border)] opacity-40">
                                     @if($rCover = $r->getFirstMediaUrl('post_covers', 'thumb'))
-                                        <img src="{{ $rCover }}" alt="{{ $r->title }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                        <img src="{{ $rCover }}" alt="{{ $r->title }}" loading="lazy" decoding="async"
+                                             width="400" height="300"
+                                             class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
                                     @endif
                                 </div>
                                 <div>
