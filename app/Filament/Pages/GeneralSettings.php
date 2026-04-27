@@ -6,9 +6,9 @@ use App\Models\SiteSetting;
 use App\Settings\GeneralSettings as GeneralSettingsStore;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -42,9 +42,9 @@ class GeneralSettings extends Page implements HasForms
             'site_name' => $settings->site_name,
             'site_description' => $settings->site_description,
             'logo_small_file' => null,
-            'logo_small_url' => $siteSetting->getFirstMediaUrl('site_logo_small') ?: $settings->logo_small_url,
+            'logo_small_url' => $siteSetting->getFirstMediaUrl('site_logo_small', 'optimized') ?: ($siteSetting->getFirstMediaUrl('site_logo_small') ?: $settings->logo_small_url),
             'logo_large_file' => null,
-            'logo_large_url' => $siteSetting->getFirstMediaUrl('site_logo_large') ?: $settings->logo_large_url,
+            'logo_large_url' => $siteSetting->getFirstMediaUrl('site_logo_large', 'optimized') ?: ($siteSetting->getFirstMediaUrl('site_logo_large') ?: $settings->logo_large_url),
             'facebook_url' => $settings->facebook_url,
             'instagram_url' => $settings->instagram_url,
             'x_url' => $settings->x_url,
@@ -154,21 +154,21 @@ class GeneralSettings extends Page implements HasForms
         }
 
         // Update Settings
-        $settings->site_name             = $state['site_name'];
-        $settings->site_description      = $state['site_description'];
-        $settings->logo_small_url        = $siteSetting->getFirstMediaUrl('site_logo_small') ?: null;
-        $settings->logo_large_url        = $siteSetting->getFirstMediaUrl('site_logo_large') ?: null;
-        $settings->facebook_url          = $state['facebook_url'] ?? null;
-        $settings->instagram_url         = $state['instagram_url'] ?? null;
-        $settings->x_url                 = $state['x_url'] ?? null;
-        $settings->default_meta_title    = $state['default_meta_title'] ?? null;
+        $settings->site_name = $state['site_name'];
+        $settings->site_description = $state['site_description'];
+        $settings->logo_small_url = $siteSetting->getFirstMediaUrl('site_logo_small', 'optimized') ?: ($siteSetting->getFirstMediaUrl('site_logo_small') ?: null);
+        $settings->logo_large_url = $siteSetting->getFirstMediaUrl('site_logo_large', 'optimized') ?: ($siteSetting->getFirstMediaUrl('site_logo_large') ?: null);
+        $settings->facebook_url = $state['facebook_url'] ?? null;
+        $settings->instagram_url = $state['instagram_url'] ?? null;
+        $settings->x_url = $state['x_url'] ?? null;
+        $settings->default_meta_title = $state['default_meta_title'] ?? null;
         $settings->default_meta_description = $state['default_meta_description'] ?? null;
         $settings->save();
 
         // Refresh form state
-        $this->data['logo_small_url']  = $settings->logo_small_url;
+        $this->data['logo_small_url'] = $settings->logo_small_url;
         $this->data['logo_small_file'] = null;
-        $this->data['logo_large_url']  = $settings->logo_large_url;
+        $this->data['logo_large_url'] = $settings->logo_large_url;
         $this->data['logo_large_file'] = null;
 
         Notification::make()

@@ -57,8 +57,8 @@
 
                     {{-- Center: Logo --}}
                     <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="group flex items-center justify-center no-underline">
-                        @if($settings->logo_large_url)
-                            <img src="{{ $settings->logo_large_url }}" alt="Logo {{ $settings->site_name }}" fetchpriority="high" class="h-12 md:h-16 w-auto transition-all hover:scale-[1.02]" :class="{ 'brightness-0 invert': dark }">
+                        @if($logoLarge = $settings->logo_large_url)
+                            <img src="{{ $logoLarge }}" alt="Logo {{ $settings->site_name }}" fetchpriority="high" class="h-12 md:h-16 w-auto transition-all hover:scale-[1.02]" :class="{ 'brightness-0 invert': dark }">
                         @else
                             <span class="text-3xl font-black italic tracking-tighter text-[var(--color-accent-primary)] md:text-4xl transition-transform hover:scale-[1.02]">
                                 {{ Str::lower($settings->site_name) }}<span class="text-[var(--color-accent-secondary)]">.id</span>
@@ -105,8 +105,8 @@
                         {{-- Center: Logo --}}
                         <div class="flex flex-none justify-center">
                             <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="flex items-center">
-                                @if($settings->logo_large_url)
-                                    <img src="{{ $settings->logo_large_url }}" fetchpriority="high" alt="Logo {{ $settings->site_name }}" class="h-9 w-auto transition-all" :class="{ 'brightness-0 invert': dark }">
+                                @if($logoLarge = $settings->logo_large_url)
+                                    <img src="{{ $logoLarge }}" fetchpriority="high" alt="Logo {{ $settings->site_name }}" class="h-9 w-auto transition-all" :class="{ 'brightness-0 invert': dark }">
                                 @else
                                     <span class="text-2xl font-black italic tracking-tighter text-[var(--color-accent-primary)]">
                                         {{ Str::lower($settings->site_name) }}<span class="text-[var(--color-accent-secondary)]">.id</span>
@@ -129,9 +129,10 @@
                     <div class="hidden w-full items-center justify-between md:flex">
                         {{-- Left: Logo --}}
                         <a href="{{ route('blog.home') }}" aria-label="Halaman Utama {{ $settings->site_name }}" class="flex items-center">
-                            @if($settings->logo_small_url)
-                                <img src="{{ $settings->logo_small_url }}" fetchpriority="high" alt="Logo {{ $settings->site_name }}" class="h-8 w-auto transition-all hover:opacity-80" :class="{ 'brightness-0 invert': dark }">
+                            @if($logoSmall = $settings->logo_small_url)
+                                <img src="{{ $logoSmall }}" fetchpriority="high" alt="Logo {{ $settings->site_name }}" class="h-8 w-auto transition-all hover:opacity-80" :class="{ 'brightness-0 invert': dark }">
                             @else
+
                                 <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-accent-primary)] text-white font-black italic shadow-lg shadow-[var(--color-accent-primary)]/20">
                                     {{ substr($settings->site_name, 0, 1) }}
                                 </div>
@@ -312,8 +313,8 @@
                     {{-- Left: Logo + tagline --}}
                     <div class="max-w-md">
                         <a href="{{ route('blog.home') }}" class="group inline-block no-underline">
-                            @if($settings->logo_large_url)
-                                <img src="{{ $settings->logo_large_url }}" alt="{{ $settings->site_name }}" 
+                            @if($logoLarge = $settings->logo_large_url)
+                                <img src="{{ $logoLarge }}" alt="{{ $settings->site_name }}" 
                                      class="h-14 w-auto transition-transform duration-500 group-hover:scale-105"
                                      :class="dark ? '' : 'brightness-0 invert'">
                             @else
